@@ -73,26 +73,30 @@ class GameState {
         this.startNumber = startNumber
         this.tiles = []
         this.scoreDiv = document.getElementById("score")
+        this.commentaryDiv = document.getElementById("commentary")
         this.hideTile = null
+        
+        let grid = document.getElementById("grid")
+        for (let i = 0; i < this.max; i++) {
+            let btn = grid.children[i]
+            this.tiles.push(new Tile(btn, this))
+        }
     }
-    
+
+    // Reset visual elements and initialize tile numbers
     reset() {
         this.leadingNumber = this.startNumber
         this.currentNumber = this.startNumber
         this.tiles = []
         this.randomArray.reset()
         this.resetScore()
+        this.resetCommentary()
         this.init()
         this.hideTile = null
     }
 
+    // Initialize tile numbers
     init() {
-        let grid = document.getElementById("grid")
-        for (let i = 0; i < this.max; i++) {
-            let btn = grid.children[i]
-            this.tiles.push(new Tile(btn, this))
-        }
-
         for (const tileIndex of this.randomArray.array) {
             let tile = this.tiles[tileIndex]
             tile.set(this.leadingNumber)
@@ -116,11 +120,24 @@ class GameState {
         this.score = 0
         this.scoreDiv.textContent = `Score: ${this.score}`
     }
+    
+    resetCommentary() {
+        this.commentaryDiv.textContent = ""
+        this.commentaryDiv.classList.remove('snap-text')
+    }
 
     incScore() {
         this.score += 1
         this.currentNumber += 1
         this.scoreDiv.textContent = `Score: ${this.score}`
+        if (this.score == 2) {
+            this.commentaryDiv.classList.add('snap-text')
+            this.commentaryDiv.textContent = "Awesome!"
+            // setTimeout(() => { this.resetCommentary() }, 1000);
+        } else if (this.score == 10) {
+            this.commentaryDiv.textContent = "Slayy Gurrl!"
+            setTimeout(() => { this.resetCommentary() }, 1000);
+        }
     }
 
     hideTiles() {

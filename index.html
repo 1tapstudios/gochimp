@@ -1,33 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Honk&family=Kode+Mono:wght@400..700&display=swap" rel="stylesheet">
     <title>GoChimp: The Memory Game</title>
     <style>
+        .kode-mono-text {
+            min-height: 1lh;
+            font-family: "Kode Mono", monospace;
+            font-optical-sizing: auto;
+            font-weight: 500;
+            font-style: normal;
+            font-size: x-large;
+        }
+
+
         .tile {
+            min-height: 1lh;
             background: rgb(124, 205, 99)
+        }
+        
+        .tile-off {
+            background: rgb(123, 125, 122);
+            outline: 2px dotted rgb(162, 163, 161);
+        }
+
+        .tile:hover {
+            scale: 105%;
+        }
+
+        .tile:active {
+            scale: 95%;
+        }
+
+        .tile:active {
+            box-shadow: inset 0 3px 4px hsla(0, 0%, 0%, 0.2);
+        }
+        
+        .tile:focus {
+            outline: thin dotted #444;
+            /* outline: 5px auto -webkit-focus-ring-color; */
+            outline: 5px auto;
+            outline-offset: -2px;
+        }
+
+        .honk-commentary {
+            min-height: 1lh;
+            line-height: 1.7;
+            font-family: "Honk", system-ui;
+            font-optical-sizing: auto;
+            font-weight: 400;
+            font-style: normal;
+            font-variation-settings:
+                "MORF" 15,
+                "SHLN" 50;
+            font-size: 3rem;
+            transform: translate(10ch);
+            transition: transform 500ms cubic-bezier(.82, 1.74, .97, -0.78);
+            ;
+        }
+
+        .snap-text {
+            transform: translate(0);
         }
     </style>
 </head>
+
 <body>
     <div class="min-h-screen bg-gray-100 flex items-center justify-center">
         <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-            <h1 class="text-2xl font-bold mb-4">GoChimp</h1>
+            <h1 class="text-2xl font-bold mb-4 text-center jersey-title">GoChimp: The Memory Game!</h1>
             <div class="mb-4">
-                <label id="score" class="block text-sm font-medium text-gray-700">Score: 0</label>
+                <label id="score" class="block text-sm font-medium text-gray-700 text-center kode-mono-text">Score: 0</label>
+                <label id="commentary"
+                    class="honk-commentary block text-sm font-medium text-gray-700 text-center"></label>
             </div>
             <div id="grid" class="grid grid-cols-3 md:grid-cols-3 gap-1 md:gap-3">
-                <button class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile">1</button>
-                <button class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile">2</button>
-                <button class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile">3</button>
-                <button class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile">4</button>
-                <button class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile">5</button>
-                <button class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile">6</button>
-                <button class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile">7</button>
-                <button class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile">8</button>
-                <button class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile">9</button>
+                <button
+                    class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile kode-mono-text">1</button>
+                <button
+                    class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile kode-mono-text">2</button>
+                <button
+                    class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile kode-mono-text">3</button>
+                <button
+                    class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile kode-mono-text">4</button>
+                <button
+                    class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile kode-mono-text">5</button>
+                <button
+                    class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile kode-mono-text">6</button>
+                <button
+                    class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile kode-mono-text">7</button>
+                <button
+                    class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile kode-mono-text">8</button>
+                <button
+                    class="shadow-md hover:shadow-lg p-8 rounded-lg border-b-2 border-r-2 border-gray-300 flex items-center justify-center w-full h-0 tile kode-mono-text">9</button>
             </div>
         </div>
     </div>
