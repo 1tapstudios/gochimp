@@ -71,11 +71,11 @@ class GameState {
         this.leadingNumber = startNumber
         this.currentNumber = startNumber
         this.startNumber = startNumber
-        this.tiles = []
         this.scoreDiv = document.getElementById("score")
         this.commentaryDiv = document.getElementById("commentary")
         this.hideTile = null
         
+        this.tiles = []
         let grid = document.getElementById("grid")
         for (let i = 0; i < this.max; i++) {
             let btn = grid.children[i]
@@ -87,7 +87,6 @@ class GameState {
     reset() {
         this.leadingNumber = this.startNumber
         this.currentNumber = this.startNumber
-        this.tiles = []
         this.randomArray.reset()
         this.resetScore()
         this.resetCommentary()
